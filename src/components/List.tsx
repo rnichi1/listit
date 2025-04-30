@@ -1,6 +1,20 @@
-import { useState } from 'react';
-import { ListContainer, ListInput, ListTitle } from './ListComponents';
+import { useEffect, useState } from 'react';
+import {
+  ListContainer,
+  ListInput,
+  ListTitle,
+  ListForm,
+  ListButtonContainer,
+} from './ListComponents';
 import { Button } from './ui/Button';
+import { ListItem } from './ListItem';
+import styled from 'styled-components';
+
+const ListItemsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
 
 type ListProps = {
   title: string;
@@ -15,23 +29,68 @@ export const List = ({ title }: ListProps) => {
   const [value, setValue] = useState('');
 
   // TODO: Implement State Management with react hooks
+  const [items, setItems] = useState<string[]>([]);
+  const [disableInput, setDisableInput] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const onAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (value.trim() === '') return;
+    setItems([...items, value]);
+    setValue('');
+    setSaved(false);
+  };
+
+  const onDelete = (index: number) => {
+    setItems(items.filter((_, i) => i !== index));
+    setSaved(false);
+  };
+
+  const onSave = () => {
+    // save to local storage
+    localStorage.setItem('items', JSON.stringify(items));
+    setSaved(true);
+  };
+
+  const onLoad = () => {
+    const items = localStorage.getItem('items');
+    if (items) setItems(JSON.parse(items));
+  };
+
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  // prevent test
+  useEffect(() => {
+    if (value.includes('test')) {
+      setDisableInput(true);
+    } else {
+      setDisableInput(false);
+    }
+  }, [value]);
 
   return (
     <ListContainer>
       <ListTitle>{title}</ListTitle>
-      <ListInput
-        placeholder="Add a new item"
-        value={value}
-        onChange={e => setValue(e.target.value)}
-      />
-      {/* TODO: Implement List Item components. Hint: use a map function to render a list of items */}
-      <Button
-        onClick={() => {
-          // TODO: Implement add item functionality
-        }}
-      >
-        Add
-      </Button>
+      <ListItemsContainer>
+        {items.map((item, index) => (
+          <ListItem key={item + index} item={item} onDelete={() => onDelete(index)} />
+        ))}
+      </ListItemsContainer>
+      <ListForm onSubmit={onAdd}>
+        <ListInput
+          placeholder="Add a new item"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+        />
+        <ListButtonContainer>
+          <Button onClick={onSave}>Save List {saved ? '✅' : ''}</Button>
+          <Button disabled={disableInput} type="submit">
+            Add
+          </Button>
+        </ListButtonContainer>
+      </ListForm>
     </ListContainer>
   );
 };
