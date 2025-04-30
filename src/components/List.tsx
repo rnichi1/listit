@@ -20,19 +20,14 @@ type ListProps = {
   title: string;
 };
 
-// TODO:
-// - Add a new item to the list
-// - Remove an item from the list
-// - Implement an effect that listens to the input value and prevents adding the word "test" to the list
-
 export const List = ({ title }: ListProps) => {
   const [value, setValue] = useState('');
 
-  // TODO: Implement State Management with react hooks
   const [items, setItems] = useState<string[]>([]);
   const [disableInput, setDisableInput] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  // Add an item to the list
   const onAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (value.trim() === '') return;
@@ -41,6 +36,7 @@ export const List = ({ title }: ListProps) => {
     setSaved(false);
   };
 
+  // Delete an item from the list
   const onDelete = (index: number) => {
     setItems(items.filter((_, i) => i !== index));
     setSaved(false);
@@ -57,10 +53,12 @@ export const List = ({ title }: ListProps) => {
     if (items) setItems(JSON.parse(items));
   };
 
+  // Load items from local storage on mount
   useEffect(() => {
     onLoad();
   }, []);
 
+  // Handle the word "test"
   useEffect(() => {
     if (value.trim().toLowerCase() === 'test') {
       setDisableInput(true);
