@@ -11,6 +11,11 @@ export const Button = styled.button`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   font-weight: 600;
 
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   &:hover {
     opacity: 0.9;
   }

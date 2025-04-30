@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   ListContainer,
   ListInput,
@@ -46,11 +46,11 @@ export const List = ({ title }: ListProps) => {
     setSaved(false);
   };
 
-  const onSave = () => {
+  const onSave = useCallback(() => {
     // save to local storage
     localStorage.setItem('items', JSON.stringify(items));
     setSaved(true);
-  };
+  }, [items]);
 
   const onLoad = () => {
     const items = localStorage.getItem('items');
@@ -61,14 +61,13 @@ export const List = ({ title }: ListProps) => {
     onLoad();
   }, []);
 
-  // prevent test
   useEffect(() => {
-    if (value.includes('test')) {
+    if (value.trim().toLowerCase() === 'test') {
       setDisableInput(true);
-    } else {
+    } else if (disableInput) {
       setDisableInput(false);
     }
-  }, [value]);
+  }, [disableInput, value]);
 
   return (
     <ListContainer>
