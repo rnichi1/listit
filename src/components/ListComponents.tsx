@@ -40,3 +40,11 @@ export const ListInput = styled.input`
     border-color: transparent;
   }
 `;
+
+export const ListForm = styled.form`
+  display: flex;
+  width: 100%;
+  gap: ${({ theme }) => theme.spacing.xs};
+  align-items: center;
+  flex-direction: column;
+`;

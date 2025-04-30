@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ListContainer, ListInput, ListTitle } from './ListComponents';
+import { ListContainer, ListInput, ListTitle, ListForm } from './ListComponents';
 import { Button } from './ui/Button';
 
 type ListProps = {
@@ -19,19 +19,21 @@ export const List = ({ title }: ListProps) => {
   return (
     <ListContainer>
       <ListTitle>{title}</ListTitle>
-      <ListInput
-        placeholder="Add a new item"
-        value={value}
-        onChange={e => setValue(e.target.value)}
-      />
       {/* TODO: Implement List Item components. Hint: use a map function to render a list of items */}
-      <Button
-        onClick={() => {
+
+      <ListForm
+        onSubmit={e => {
+          e.preventDefault();
           // TODO: Implement add item functionality
         }}
       >
-        Add
-      </Button>
+        <ListInput
+          placeholder="Add a new item"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+        />
+        <Button type="submit">Add</Button>
+      </ListForm>
     </ListContainer>
   );
 };
