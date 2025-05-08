@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components';
 const darkTheme: DefaultTheme = {
   colors: {
     primary: '#6C63FF', // Purple shade
+    primaryDark: '#5C54E0',
     cta: '#00BFA6', // Teal accent
     white: '#F2F2F2',
     black: '#121212',

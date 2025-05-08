@@ -1,39 +1,34 @@
 import { useState } from 'react';
-import { ListContainer, ListInput, ListTitle, ListForm } from './ListComponents';
+import { ListContainer, ListTitle, Row } from './ListComponents';
 import { Button } from './ui/Button';
+import { TodoItem } from './TodoItem';
 
 type ListProps = {
   title: string;
 };
 
-// TODO:
-// - Add a new item to the list
-// - Remove an item from the list
-// - Implement an effect that listens to the input value and prevents adding the word "test" to the list
+// TODOs:
+// - Add the dummy data API call in a function and call it to get some todo data from https://jsonplaceholder.typicode.com/
+// - Display the data in the list
+// - Add a text to TodoItem to show if it is completed or not
 
 export const List = ({ title }: ListProps) => {
-  const [value, setValue] = useState('');
+  // TODO: Create a type for the todo (hint: check jsonplaceholder website below for the example and type.)
+  const [todo, setTodo] = useState([]);
 
-  // TODO: Implement State Management with react hooks
+  // TODO Implement the api call with fetch
 
   return (
     <ListContainer>
       <ListTitle>{title}</ListTitle>
-      {/* TODO: Implement List Item components. Hint: use a map function to render a list of items */}
+      {todo.map((todo, index) => (
+        <TodoItem key={index} item={todo} />
+      ))}
 
-      <ListForm
-        onSubmit={e => {
-          e.preventDefault();
-          // TODO: Implement add item functionality
-        }}
-      >
-        <ListInput
-          placeholder="Add a new item"
-          value={value}
-          onChange={e => setValue(e.target.value)}
-        />
-        <Button type="submit">Add</Button>
-      </ListForm>
+      <Row>
+        {/* TODO: Implement the button to get the data from the API */}
+        <Button type="button">Get Data</Button>
+      </Row>
     </ListContainer>
   );
 };

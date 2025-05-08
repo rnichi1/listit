@@ -48,3 +48,34 @@ export const ListForm = styled.form`
   align-items: center;
   flex-direction: column;
 `;
+
+export const Row = styled.div`
+  display: flex;
+  width: 100%;
+  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
+
+export const ItemContainer = styled.button`
+  display: flex;
+  width: 400px;
+  gap: ${({ theme }) => theme.spacing.xs};
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.colors.primary};
+  padding: ${({ theme }) => theme.spacing.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
+
+  border: none;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  text-align: left;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryDark};
+  }
+`;
